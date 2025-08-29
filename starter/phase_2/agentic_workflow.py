@@ -45,9 +45,12 @@ knowledge_product_manager = (
 product_manager_knowledge_agent = KnowledgeAugmentedPromptAgent(openai_api_key, persona_product_manager, knowledge_product_manager)
 # Product Manager - Evaluation Agent
 # TODO: 7 - Define the persona and evaluation criteria for a Product Manager evaluation agent and instantiate it as product_manager_evaluation_agent. This agent will evaluate the product_manager_knowledge_agent.
-persona_product_manager_eval = "You are an evaluation agent that checks the answers of product manager knowledge agent"
-# The evaluation_criteria should specify the expected structure for user stories (e.g., "As a [type of user], I want [an action or feature] so that [benefit/value].").
-evaluation_criteria_product_manager = "The answer should be user stories following this exact structure: As a [type of user], I want [an action or feature] so that [benefit/value]."
+persona_product_manager_eval = "You are an evaluation agent that checks the answers of other worker agents"
+# The evaluation_criteria should specify the expected structure for stories (exact phrasing per spec).
+evaluation_criteria_product_manager = (
+    "The answer should be stories that follow the following structure: "
+    "As a [type of user], I want [an action or feature] so that [benefit/value]."
+)
 product_manager_evaluation_agent = EvaluationAgent(openai_api_key, persona_product_manager_eval, evaluation_criteria_product_manager, product_manager_knowledge_agent, 10)
 
 
@@ -59,7 +62,13 @@ knowledge_program_manager = "Features of a product are defined by organizing sim
 program_manager_knowledge_agent = KnowledgeAugmentedPromptAgent(openai_api_key, persona_program_manager, knowledge_program_manager)
 # Program Manager - Evaluation Agent
 persona_program_manager_eval = "You are an evaluation agent that checks the answers of other worker agents."
-evaluation_criteria_program_manager = "The answer should be product features following this exact structure: Feature Name: A clear, concise title that identifies the capability. Description: A brief explanation of what the feature does and its purpose. Key Functionality: The specific capabilities or actions the feature provides. User Benefit: How this feature creates value for the user."
+evaluation_criteria_program_manager = (
+    "The answer should be product features that follow the following structure: "
+    "\nFeature Name: A clear, concise title that identifies the capability"
+    "\nDescription: A brief explanation of what the feature does and its purpose"
+    "\nKey Functionality: The specific capabilities or actions the feature provides"
+    "\nUser Benefit: How this feature creates value for the user"
+)
 program_manager_evaluation_agent = EvaluationAgent(openai_api_key, persona_program_manager_eval, evaluation_criteria_program_manager, program_manager_knowledge_agent, 10)
 # TODO: 8 - Instantiate a program_manager_evaluation_agent using 'persona_program_manager_eval' and the evaluation criteria below.
 #                      "The answer should be product features that follow the following structure: " \
@@ -78,7 +87,16 @@ knowledge_dev_engineer = "Development tasks are defined by identifying what need
 development_engineer_knowledge_agent = KnowledgeAugmentedPromptAgent(openai_api_key, persona_dev_engineer, knowledge_dev_engineer)
 # Development Engineer - Evaluation Agent
 persona_dev_engineer_eval = "You are an evaluation agent that checks the answers of other worker agents."
-evaluation_criteria_dev_engineer = "The answer should be tasks following this exact structure: Task ID: A unique identifier for tracking purposes. Task Title: Brief description of the specific development work. Related User Story: Reference to the parent user story. Description: Detailed explanation of the technical work required. Acceptance Criteria: Specific requirements that must be met for completion. Estimated Effort: Time or complexity estimation. Dependencies: Any tasks that must be completed first."
+evaluation_criteria_dev_engineer = (
+    "The answer should be tasks following this exact structure: "
+    "\nTask ID: A unique identifier for tracking purposes"
+    "\nTask Title: Brief description of the specific development work"
+    "\nRelated User Story: Reference to the parent user story"
+    "\nDescription: Detailed explanation of the technical work required"
+    "\nAcceptance Criteria: Specific requirements that must be met for completion"
+    "\nEstimated Effort: Time or complexity estimation"
+    "\nDependencies: Any tasks that must be completed first"
+)
 development_engineer_evaluation_agent = EvaluationAgent(openai_api_key, persona_dev_engineer_eval, evaluation_criteria_dev_engineer, development_engineer_knowledge_agent, 10)
 # TODO: 9 - Instantiate a development_engineer_evaluation_agent using 'persona_dev_engineer_eval' and the evaluation criteria below.
 #                      "The answer should be tasks following this exact structure: " \
